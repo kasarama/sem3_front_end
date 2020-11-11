@@ -14,22 +14,32 @@ import Offer from "./components/Offer";
 import Package from "./components/Package";
 import Header from "./components/Header";
 import Register from "./components/Register";
+import NewPack from "./components/NewPack";
+import Account from "./components/Account";
+import Orders from "./components/Orders";
+import Users from "./components/Users";
+import Statistics from "./components/Statistics";
 
 function App() {
+  const init = { username: "", password: "" };
   const [loggedIn, setLoggedIn] = useState(false);
   const [errorMsg, setErrMsg] = useState("");
   const [activeUser, setActiveUser] = useState("");
+  const [admin, setAdmin] = useState(false);
 
   const logout = () => {
     facade.logout();
     setLoggedIn(false);
+    setAdmin(false);
+    setActiveUser("anonym");
+   
   };
   const login = (user, pass) => {
     facade
       .login(user, pass)
       .then((res) => {
-        setLoggedIn(true);
-        setActiveUser(res.username);
+        user !== "admin" ? setLoggedIn(true) : setAdmin(true);
+        setActiveUser(user);
       })
       .catch((err) => {
         if (err.status) {
@@ -40,11 +50,11 @@ function App() {
         }
       });
   };
-
+console.log("Admin status: "+admin+"  loggedIn status: "+loggedIn)
   return (
     <Router>
       <div className="App">
-        <Header />
+        <Header loggedIn={loggedIn} admin={admin} logout={logout} />
         <Switch>
           <Route exact path="/">
             <Home />
@@ -53,20 +63,70 @@ function App() {
             <Offer />
           </Route>
           <Route exact path="/pack">
-            <Package demoPack={facade.getDemoPack}/>
+            <Package />
           </Route>
-          <Route exact path="/register">
-            <Register />
+          {!loggedIn ? (
+            <Route exact path="/register">
+              <Register facade={facade} init={init} />
+            </Route>
+          ) : (
+            ""
+          )}
+          {!loggedIn ? (
+            <Route exact path="/login">
+              <LogIn login={login} init={init} />
+            </Route>
+          ) : (
+            ""
+          )}
+          <Route exact path="/newpack">
+            <NewPack />
           </Route>
-          <Route exact path="/login">
-            <LogIn login={login} />
-          </Route>
-          <Route exact path="/account">
-            <LoggedIn />
+          {loggedIn ? (
+            <Route exact path="/account">
+              <Account />
+            </Route>
+          ) : (
+            ""
+          )}
+          {admin ? (
+            <Route exact path="/orders">
+              <Orders />
+            </Route>
+          ) : (
+            ""
+          )}
+          {admin ? (
+            <Route exact path="/users">
+              <Users />
+            </Route>
+          ) : (
+            ""
+          )}
+          {admin ? (
+            <Route exact path="/statistics">
+              <Statistics />
+            </Route>
+          ) : (
+            ""
+          )}
+          <Route>
+            <NoMatch />
           </Route>
         </Switch>
       </div>
     </Router>
+  );
+}
+function NoMatch() {
+  let location = useLocation();
+
+  return (
+    <div>
+      <h3>
+        No match for <code>{location.pathname}</code>
+      </h3>
+    </div>
   );
 }
 export default App;

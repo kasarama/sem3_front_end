@@ -1,12 +1,10 @@
 import {
   useHistory,
-  BrowserRouter as Router,
-  useRouteMatch,
+  
 } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 
-export default function LogIn({ login }) {
-  const init = { username: "", password: "" };
+export default function LogIn({ login, init }) {
   const [loginCredentials, setLoginCredentials] = useState(init);
 
   const history = useHistory();
@@ -14,7 +12,9 @@ export default function LogIn({ login }) {
   const performLogin = (evt) => {
     evt.preventDefault();
     login(loginCredentials.username, loginCredentials.password);
-    history.push("/account");
+    loginCredentials.username !== "admin"
+      ? history.push("/account")
+      : history.push("/statistics");
   };
   const onChange = (evt) => {
     setLoginCredentials({

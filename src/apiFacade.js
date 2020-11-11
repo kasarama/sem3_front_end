@@ -5,13 +5,18 @@ const URL = links.server;
 function apiFacade() {
   //............Demo Package..............\\
   const getDemoPack = () => {
-    return fetch(URL + "/api/info/demoPackage")
-      .then(handleHttpErrors)
-      .then((res) => {
-        console.log(res);
-      });
+    return fetch(URL + "/api/info/demoPackage").then(handleHttpErrors);
   };
+  //.........................\\
 
+  //............registerUser..............\\
+  const registerUser = (user) => {
+    const options = makeOptions("POST", false, {
+      ...user,
+    });
+    return fetch(URL + "/api/user", options).then(handleHttpErrors);
+  };
+  //.........................\\
   const setToken = (token) => {
     localStorage.setItem("jwtToken", token);
   };
@@ -70,6 +75,7 @@ function apiFacade() {
     logout,
     fetchData,
     getDemoPack,
+    registerUser,
   };
 }
 const facade = apiFacade();
