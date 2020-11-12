@@ -1,4 +1,5 @@
 import { Row, Container, Col } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 export default function Home() {
   return (
@@ -7,19 +8,28 @@ export default function Home() {
         <h2>Welcome home</h2>
       </div>
 
-      <Container style={{ border: "2px solid black", height: 400, width: 600 }}>
+      <Container
+        fluid
+        style={{ border: "2px solid black", height: 400, width: 600 }}
+      >
         <Row style={{ border: "2px solid black", height: "40%" }}>
           <Col
             style={{ border: "2px solid blue", height: "100%", width: "50%" }}
-          ></Col>
-           <Col
+          >
+            bkjn
+          </Col>
+          <Col
             style={{ border: "2px solid red", height: "100%", width: "25%" }}
-         ></Col>
-           <Col
+          >
+            bkjn
+          </Col>
+          <Col
             style={{ border: "2px solid green", height: "100%", width: "25%" }}
-         ></Col>
+          >
+            njknk
+          </Col>
         </Row>
-        <Row style={{ border: "2px solid black", height: "60%" }}></Row>
+        <Row style={{ border: "2px solid black", height: "60%" }}>nlknk</Row>
       </Container>
     </div>
   );
