@@ -1,20 +1,18 @@
-import {
-  useHistory,
-  
-} from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 
-export default function LogIn({ login, init }) {
+export default function LogIn({ login, init, errorMsg }) {
   const [loginCredentials, setLoginCredentials] = useState(init);
 
   const history = useHistory();
 
   const performLogin = (evt) => {
     evt.preventDefault();
-    login(loginCredentials.username, loginCredentials.password);
-    loginCredentials.username !== "admin"
-      ? history.push("/account")
-      : history.push("/statistics");
+    login(loginCredentials.username, loginCredentials.password, () => {
+      loginCredentials.username !== "admin"
+        ? history.push("/account")
+        : history.push("/statistics");
+    });
   };
   const onChange = (evt) => {
     setLoginCredentials({
@@ -31,6 +29,7 @@ export default function LogIn({ login, init }) {
         <input placeholder="Password" id="password" />
         <button onClick={performLogin}>Login</button>
       </form>
+      <h3>{errorMsg}</h3>
     </div>
   );
 }

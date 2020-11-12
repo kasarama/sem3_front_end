@@ -32,15 +32,15 @@ function App() {
     setLoggedIn(false);
     setAdmin(false);
     setActiveUser("anonym");
-   
   };
-  const login = (user, pass) => {
+  const login = (user, pass, callback) => {
     facade
       .login(user, pass)
       .then((res) => {
         user !== "admin" ? setLoggedIn(true) : setAdmin(true);
         setActiveUser(user);
       })
+      .then(callback)
       .catch((err) => {
         if (err.status) {
           err.fullError.then((e) => setErrMsg(e.message));
@@ -49,8 +49,9 @@ function App() {
           console.log("Network error! Could not log in");
         }
       });
+    setErrMsg("");
   };
-console.log("Admin status: "+admin+"  loggedIn status: "+loggedIn)
+  console.log("Admin status: " + admin + "  loggedIn status: " + loggedIn);
   return (
     <Router>
       <div className="App">
@@ -74,7 +75,7 @@ console.log("Admin status: "+admin+"  loggedIn status: "+loggedIn)
           )}
           {!loggedIn ? (
             <Route exact path="/login">
-              <LogIn login={login} init={init} />
+              <LogIn login={login} init={init} errorMsg={errorMsg} />
             </Route>
           ) : (
             ""
