@@ -65,7 +65,11 @@ export default function Register({ facade, init }) {
       </Row>
       <Row style={{ height: 40 }}>{"  "}</Row>
       <Row>
-        <Col md={4}></Col>
+        <Col md={4}>
+          <div className="form-group row">
+            <h5>{status}</h5>
+          </div>
+        </Col>
         <Col>
           <form onSubmit={onSubmit}>
             <div className="form-group row">

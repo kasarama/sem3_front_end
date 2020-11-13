@@ -27,13 +27,17 @@ export default function LogIn({ login, init, errorMsg }) {
       <Row>
         <Col md={5}></Col>
         <Col>
-          <h2>Create new profile </h2>
+          <h2>Log in page</h2>
         </Col>
         <Col md={5}></Col>
       </Row>
       <Row style={{ height: 40 }}>{"  "}</Row>
       <Row>
-        <Col md={4}></Col>
+        <Col md={4}>
+          <div className="form-group row">
+            <h5>{errorMsg}</h5>
+          </div>
+        </Col>
         <Col>
           <form onChange={onChange}>
             <div className="form-group row">
