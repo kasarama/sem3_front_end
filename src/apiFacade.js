@@ -50,6 +50,14 @@ function apiFacade() {
     return fetch(URL + url2, options).then(handleHttpErrors);
   };
 
+  const fetchAnyGET = (URL) => {
+    const options = makeOptions("GET", false);
+    return fetch(URL, options).then(handleHttpErrors);
+  };
+  const fetchNoOptions = (URL) => {
+    return fetch(URL).then(handleHttpErrors);
+  };
+
   const makeOptions = (method, addToken, body) => {
     var opts = {
       method: method,
@@ -76,6 +84,8 @@ function apiFacade() {
     fetchData,
     getDemoPack,
     registerUser,
+    fetchAnyGET,
+    fetchNoOptions,
   };
 }
 const facade = apiFacade();

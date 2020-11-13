@@ -18,12 +18,6 @@ export default function Package() {
     details: "cdd vmasp nkl cdmsjsp",
   };
   const [packBox, setPackBox] = useState(initpack);
-
-  /*
-    facade.getDemoPack().then((pack) => {
-      setPackBox(pack);
-    });*/
-
   const [loading, setloading] = useState(true);
 
   useEffect(() => {

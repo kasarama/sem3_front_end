@@ -1,7 +1,9 @@
+import { useEffect } from "react";
 import { Row, Container, Col } from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
+import facade from "../apiFacade";
 
 export default function Home() {
+  
   return (
     <div>
       <div>

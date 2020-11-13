@@ -6,6 +6,8 @@ import {
   Route,
   useLocation,
 } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
+
 import facade from "./apiFacade";
 import LogIn from "./components/LogIn";
 import LoggedIn from "./components/LoggedIn";
@@ -81,7 +83,7 @@ function App() {
             ""
           )}
           <Route exact path="/newpack">
-            <NewPack />
+            <NewPack facade={facade} />
           </Route>
           {loggedIn ? (
             <Route exact path="/account">
