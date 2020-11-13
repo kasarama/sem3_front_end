@@ -7,20 +7,20 @@ import facade from "../apiFacade";
 export default function NewPack() {
   const initOption = (
     <option disabled={true} value={"random"}>
-      {"initial"}
+      {"loading..."}
     </option>
   );
   const hiistory = useHistory();
   const [categories, setCat] = useState(["ab", "cd"]);
   const [cars, setCars] = useState(initOption);
-  const [destiny, setDestiny] = useState(initOption);
+  const [destiny, setDestiny] = useState({ name: "", body: "", email: "" });
   const [mentor, setMentor] = useState(initOption);
   const [loadingNorris, setNorrisLoading] = useState(true);
   const [loadingCar, setCarLoading] = useState(true);
   const [loadingMentor, setMen] = useState(true);
   const [loadingTarget, setTar] = useState(true);
   const [errorMsg, setErrMsg] = useState("Start selecting");
-  const [luckyTarget, setLucky] = useState("");
+  const [luckyTarget, setLucky] = useState("500");
   useEffect(() => {
     let mounted = true;
     // fetch Chucks:
@@ -98,7 +98,7 @@ export default function NewPack() {
           mentors.data.map((men) => (
             <option key={men.id} value={men.id}>
               {men.employee_name +
-                " tlf: " +
+                " level: " +
                 men.employee_salary +
                 ", age: " +
                 men.employee_age}
@@ -124,7 +124,14 @@ export default function NewPack() {
     e.preventDefault();
     setLucky(Math.floor(Math.random() * 500) + 1);
     console.log(luckyTarget);
-    facade.fetchAnyGET(url.target + luckyTarget).then((target) => setDestiny());
+    facade.fetchAnyGET(url.target + luckyTarget).then((target) => {
+      console.log(target);
+      setDestiny({
+        name: target.name,
+        email: target.email,
+        body: target.body,
+      });
+    });
   }
 
   return (
@@ -147,31 +154,55 @@ export default function NewPack() {
               <h2>Select options:</h2>
             </div>
             {loadingNorris && loadingCar && loadingMentor ? (
-              <p>Loading categories...</p>
+              <p>Loading ...</p>
             ) : (
               <form>
                 <div className="form-row align-items-center">
                   <div style={{ margin: "2%" }}>
-                    <span>Your weapon: secret spell - choose category</span>
-                    <select className="custom-select mr-sm-2" id="chuck">
+                    <span>Secret spell - choose category</span>
+                    <select
+                      className="custom-select mr-sm-2"
+                      id="chuck"
+                      defaultValue={"default"}
+                    >
+                      <option disabled={true} value={"default"}>
+                        {"They're all very powerfull :"}
+                      </option>
                       <option value={"random"}>{"random"}</option> {categories}
                     </select>
                   </div>{" "}
                   <div style={{ margin: "2%" }}>
                     <span>Choose the Teleportator</span>
-                    <select className="custom-select mr-sm-2" id="target">
+                    <select
+                      className="custom-select mr-sm-2"
+                      id="target"
+                      defaultValue={"default"}
+                    >
+                      <option disabled={true} value={"default"}>
+                        {"Shown colors ar colors of the specific vehicle:"}
+                      </option>
                       {cars}
                     </select>
                   </div>{" "}
                   <div style={{ margin: "2%" }}>
                     <span>The most worthy Mentor</span>
-                    <select className="custom-select mr-sm-2" id="mentor">
+                    <select
+                      className="custom-select mr-sm-2"
+                      id="mentor"
+                      defaultValue={"default"}
+                    >
+                      <option disabled={true} value={"default"}>
+                        {"They all have secret powers:"}
+                      </option>
                       {mentor}
                     </select>
                     <div style={{ margin: "2%" }}>
-                      <p1>Draw your Portal of Destiny</p1>
-                      <br />
+                      <p>Draw your Portal of Destiny</p>
+
                       <button onClick={spinTarget}>Spin!</button>
+                      <p>{destiny.name}</p>
+                      <p>{destiny.email}</p>
+                      <p>{destiny.body}</p>
                     </div>{" "}
                   </div>
                 </div>
