@@ -32,7 +32,6 @@ function apiFacade() {
   };
 
   const login = (user, password) => {
-    console.log(URL);
     const options = makeOptions("POST", true, {
       username: user,
       password: password,
@@ -41,7 +40,6 @@ function apiFacade() {
       .then(handleHttpErrors)
       .then((res) => {
         setToken(res.token);
-        console.log(res);
       });
   };
 
@@ -57,7 +55,12 @@ function apiFacade() {
   const fetchNoOptions = (URL) => {
     return fetch(URL).then(handleHttpErrors);
   };
-
+  const newPackage = (URL, tample) => {
+    console.log("ina api facade: ")
+    console.log(tample)
+    const options = makeOptions("POST", false, tample);
+    return fetch(URL, options);
+  };
   const makeOptions = (method, addToken, body) => {
     var opts = {
       method: method,
@@ -86,6 +89,7 @@ function apiFacade() {
     registerUser,
     fetchAnyGET,
     fetchNoOptions,
+    newPackage,
   };
 }
 const facade = apiFacade();

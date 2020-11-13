@@ -10,6 +10,7 @@ export default function NewPack() {
       {"loading..."}
     </option>
   );
+
   const hiistory = useHistory();
   const [categories, setCat] = useState(["ab", "cd"]);
   const [cars, setCars] = useState(initOption);
@@ -20,7 +21,13 @@ export default function NewPack() {
   const [loadingMentor, setMen] = useState(true);
   const [loadingTarget, setTar] = useState(true);
   const [errorMsg, setErrMsg] = useState("Start selecting");
-  const [luckyTarget, setLucky] = useState("500");
+  const [luckyTarget, setLucky] = useState(Math.floor(Math.random() * 500) + 1);
+  const [newPack, setNewPack] = useState({
+    category: "",
+    car: "",
+    mentor: "",
+    target: luckyTarget.toString(10),
+  });
   useEffect(() => {
     let mounted = true;
     // fetch Chucks:
@@ -29,7 +36,7 @@ export default function NewPack() {
       .then((data) => {
         setCat(
           data.map((cat) => (
-            <option key={cat} value={"?category=" + cat}>
+            <option key={cat} value={"random?category=" + cat}>
               {cat}
             </option>
           ))
@@ -123,17 +130,51 @@ export default function NewPack() {
   function spinTarget(e) {
     e.preventDefault();
     setLucky(Math.floor(Math.random() * 500) + 1);
-    console.log(luckyTarget);
     facade.fetchAnyGET(url.target + luckyTarget).then((target) => {
-      console.log(target);
       setDestiny({
         name: target.name,
         email: target.email,
         body: target.body,
       });
+      setNewPack({ ...newPack, target: luckyTarget.toString(10) });
     });
   }
 
+  /*
+ { 
+  "username":"user",
+   "category":"random?category=food",
+   "car":"5",
+   "target":"5",
+   "mentor":"5"
+   }
+  */
+  function submit(e) {
+    setNewPack({ ...newPack, username: "user" });
+    console.log("in submit:");
+    console.log(newPack);
+    e.preventDefault();
+    if (
+      newPack.category === "" ||
+      newPack.car === "" ||
+      newPack.mentor === ""
+    ) {
+      setErrMsg("Some of Components has not been chosen");
+    } else {
+      facade
+        .newPackage(url.newPack, newPack)
+        .then((data) => {
+          console.log(data);
+        })
+        .catch((err) => {
+          if (err.status) {
+            err.fullError.then((e) => console.log(e.message));
+          } else {
+            setErrMsg("Network error has occurred: Could not load cars");
+          }
+        });
+    }
+  }
   return (
     <div>
       <Container fluid>
@@ -164,6 +205,11 @@ export default function NewPack() {
                       className="custom-select mr-sm-2"
                       id="chuck"
                       defaultValue={"default"}
+                      onClick={(e) => {
+                        e.preventDefault();
+
+                        setNewPack({ ...newPack, category: e.target.value });
+                      }}
                     >
                       <option disabled={true} value={"default"}>
                         {"They're all very powerfull :"}
@@ -175,8 +221,12 @@ export default function NewPack() {
                     <span>Choose the Teleportator</span>
                     <select
                       className="custom-select mr-sm-2"
-                      id="target"
+                      id="car"
                       defaultValue={"default"}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setNewPack({ ...newPack, car: e.target.value });
+                      }}
                     >
                       <option disabled={true} value={"default"}>
                         {"Shown colors ar colors of the specific vehicle:"}
@@ -190,6 +240,10 @@ export default function NewPack() {
                       className="custom-select mr-sm-2"
                       id="mentor"
                       defaultValue={"default"}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setNewPack({ ...newPack, mentor: e.target.value });
+                      }}
                     >
                       <option disabled={true} value={"default"}>
                         {"They all have secret powers:"}
@@ -203,33 +257,34 @@ export default function NewPack() {
                       <p>{destiny.name}</p>
                       <p>{destiny.email}</p>
                       <p>{destiny.body}</p>
+                      <button onClick={submit}>
+                        Submit to unlock the healing spell
+                      </button>
                     </div>{" "}
                   </div>
                 </div>
               </form>
             )}
           </Col>
-          <Col> </Col>
-        </Row>
-        <Row>
-          {" "}
           <Col xs={1}> </Col>
           <Col
-            xs={5}
             style={{
-              marginLeft: "3%",
-              marginRight: "3%",
-              padding: "1%",
+              margin: "3%",
+              padding: "2%",
               border: "2px solid black",
               width: "60%",
             }}
           >
             {" "}
-            <div className="form-row align-items-center">
+            <div>
               <h3>{errorMsg}</h3>
+              <br />
+              <p>{newPack.category}</p>
+              <p>{newPack.car}</p>
+              <p>{newPack.mentor}</p>
+              <p>{newPack.target}</p>
             </div>
           </Col>
-          <Col> </Col>
         </Row>
       </Container>
     </div>
