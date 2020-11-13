@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Row, Container, Col } from "react-bootstrap";
 import facade from "../apiFacade";
+import PackView from "./PackView";
 
 export default function Package() {
   const initpack = {
@@ -39,78 +40,7 @@ export default function Package() {
     };
   }, []);
   //<div style={{ width: 500, height: 500 }}>
-  return (
-    <Container style={{ width: "100%", height: "50%" }}>
-      {" "}
-      {loading ? (
-        <p>Loading...</p>
-      ) : (
-        <div>
-          <Row
-            style={{
-              backgroundColor: packBox.color,
-              bordercolor: "black",
-              height: "40%",
-            }}
-          >
-            <Col
-              style={{
-                width: "60%",
-              }}
-            >
-              <Row variant="info">
-                <div>Package type</div>
-              </Row>
-              <Row>
-                <Col>
-                  <p> </p>
-                </Col>
-                <Col>{packBox.chuckJoke}</Col>
-                <Col> </Col>
-              </Row>
-            </Col>
-            <Col>
-              <div
-                style={{
-                  width: "40%",
-                }}
-              >
-                <p>Vehicle</p>
-                <p>car: {packBox.carName}</p>
-                <p>year: {packBox.year}</p>
-                <p>plates: {packBox.plates}</p>
-              </div>
-            </Col>
-          </Row>
-
-          <Row style={{ height: "60%" }}>
-            <Col>
-              <h2>Mentor</h2>
-              <p>{packBox.MentorName}</p>
-              <p>{packBox.phone}</p>
-              <p>{packBox.age}</p>
-            </Col>
-            <Col> </Col>
-            <Col>
-              <Row>
-                <h2>Target</h2>
-                <p>{packBox.title}</p>
-                <p>{packBox.email}</p>
-                <p>{packBox.details}</p>
-              </Row>
-              <Row>
-                <Col> </Col>
-                <Col>
-                  <h3>Dad Joke</h3>
-                  <p>{packBox.dadJoke}</p>
-                </Col>
-              </Row>
-            </Col>
-          </Row>
-        </div>
-      )}
-    </Container>
-  );
+  return <PackView resultPack={packBox} />;
 }
 
 /*

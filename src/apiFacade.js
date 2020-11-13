@@ -20,15 +20,23 @@ function apiFacade() {
   const setToken = (token) => {
     localStorage.setItem("jwtToken", token);
   };
+  const setActivUser = (user) => {
+    localStorage.setItem("user", user);
+  };
   const getToken = () => {
     return localStorage.getItem("jwtToken");
   };
+  const getActivUser = () => {
+    return localStorage.getItem("user");
+  };
   const loggedIn = () => {
+    console.log("chcecking if logged in in facade");
     const loggedIn = getToken() != null;
     return loggedIn;
   };
   const logout = () => {
     localStorage.removeItem("jwtToken");
+    localStorage.removeItem("user");
   };
 
   const login = (user, password) => {
@@ -40,6 +48,7 @@ function apiFacade() {
       .then(handleHttpErrors)
       .then((res) => {
         setToken(res.token);
+        setActivUser(user);
       });
   };
 
@@ -56,10 +65,8 @@ function apiFacade() {
     return fetch(URL).then(handleHttpErrors);
   };
   const newPackage = (URL, tample) => {
-    console.log("ina api facade: ")
-    console.log(tample)
     const options = makeOptions("POST", false, tample);
-    return fetch(URL, options);
+    return fetch(URL, options).then(handleHttpErrors);
   };
   const makeOptions = (method, addToken, body) => {
     var opts = {
@@ -90,6 +97,7 @@ function apiFacade() {
     fetchAnyGET,
     fetchNoOptions,
     newPackage,
+    getActivUser,
   };
 }
 const facade = apiFacade();

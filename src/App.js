@@ -24,21 +24,21 @@ import Statistics from "./components/Statistics";
 
 function App() {
   const init = { username: "", password: "" };
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(facade.loggedIn);
   const [errorMsg, setErrMsg] = useState("");
-  const [activeUser, setActiveUser] = useState("");
+  const [activeUser, setActiveUser] = useState(facade.getActivUser);
   const [admin, setAdmin] = useState(false);
 
   const logout = () => {
     facade.logout();
     setLoggedIn(false);
     setAdmin(false);
-    setActiveUser("anonym");
+    setActiveUser(false);
   };
   const login = (user, pass, callback) => {
     facade
       .login(user, pass)
-      .then((res) => {
+      .then(() => {
         user !== "admin" ? setLoggedIn(true) : setAdmin(true);
         setActiveUser(user);
       })
@@ -57,7 +57,12 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <Header loggedIn={loggedIn} admin={admin} logout={logout} />
+        <Header
+          loggedIn={loggedIn}
+          admin={admin}
+          logout={logout}
+          activeUser={activeUser}
+        />
         <Switch>
           <Route exact path="/">
             <Home />
@@ -83,7 +88,7 @@ function App() {
             ""
           )}
           <Route exact path="/newpack">
-            <NewPack facade={facade} />
+            <NewPack facade={facade} activeUser={activeUser} />
           </Route>
           {loggedIn ? (
             <Route exact path="/account">

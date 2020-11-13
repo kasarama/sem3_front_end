@@ -1,5 +1,6 @@
 import { useHistory } from "react-router-dom";
 import React, { useState, useEffect } from "react";
+import { Row, Container, Col } from "react-bootstrap";
 
 export default function LogIn({ login, init, errorMsg }) {
   const [loginCredentials, setLoginCredentials] = useState(init);
@@ -22,14 +23,38 @@ export default function LogIn({ login, init, errorMsg }) {
   };
 
   return (
-    <div>
-      <h2>Login</h2>
-      <form onChange={onChange}>
-        <input placeholder="User Name" id="username" />
-        <input placeholder="Password" id="password" />
-        <button onClick={performLogin}>Login</button>
-      </form>
-      <h3>{errorMsg}</h3>
-    </div>
+    <Container fluid>
+      <Row>
+        <Col md={5}></Col>
+        <Col>
+          <h2>Create new profile </h2>
+        </Col>
+        <Col md={5}></Col>
+      </Row>
+      <Row style={{ height: 40 }}>{"  "}</Row>
+      <Row>
+        <Col md={4}></Col>
+        <Col>
+          <form onChange={onChange}>
+            <div className="form-group row">
+              <label style={{ width: 180 }}>
+                Nick name:
+                <input type="text" id="username" onChange={onChange} />
+              </label>
+            </div>
+            <div className="form-group row">
+              <label style={{ width: 180 }}>
+                Password:
+                <input type="password" id="password" onChange={onChange} />
+              </label>
+            </div>
+            <div className="form-group row">
+              <button onClick={performLogin}>Login</button>
+            </div>
+          </form>
+        </Col>
+        <Col md={4}></Col>
+      </Row>
+    </Container>
   );
 }

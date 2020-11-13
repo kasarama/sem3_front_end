@@ -1,5 +1,6 @@
 import { useEffect, useState, Button, Form } from "react";
 import { useHistory } from "react-router-dom";
+import { Row, Container, Col } from "react-bootstrap";
 
 export default function Register({ facade, init }) {
   const [newUser, setNewUser] = useState(init);
@@ -54,40 +55,47 @@ export default function Register({ facade, init }) {
     }
   }
   return (
-    <div>
-      <div>
-        <h2>Registration form</h2>
-        <h3>Hello {nickName}</h3>
-      </div>
-      <div>
-        {" "}
-        <form onSubmit={onSubmit}>
-          <div className="form-group row">
-            <label>
-              Nick name:
-              <input type="text" id="username" onChange={onChange} />
-            </label>
-          </div>
-          <div className="form-group row">
-            <label>
-              Password:
-              <input type="password" id="password" onChange={onChange} />
-            </label>
-          </div>
-          <div className="form-group row">
-            <label>
-              Repeat password:
-              <input type="password" id="password1" onChange={onChange1} />
-            </label>
-          </div>
-          <div className="form-group row">
-            <input type="submit" value="Submit" />
-          </div>
-        </form>
-      </div>
-      <div>
-        <h1>{status}</h1>
-      </div>
-    </div>
+    <Container fluid>
+      <Row>
+        <Col md={5}></Col>
+        <Col>
+          <h2>Create new profile </h2>
+        </Col>
+        <Col md={5}></Col>
+      </Row>
+      <Row style={{ height: 40 }}>{"  "}</Row>
+      <Row>
+        <Col md={4}></Col>
+        <Col>
+          <form onSubmit={onSubmit}>
+            <div className="form-group row">
+              <label style={{ width: 180 }}>
+                Nick name:
+                <input type="text" id="username" onChange={onChange} />
+              </label>
+            </div>
+            <div className="form-group row">
+              <label style={{ width: 180 }}>
+                Password:
+                <input type="password" id="password" onChange={onChange} />
+              </label>
+            </div>
+            <div className="form-group row">
+              <label style={{ width: 180 }}>
+                Repeat password:
+                <input type="password" id="password1" onChange={onChange1} />
+              </label>
+            </div>
+            <div className="form-group row">
+              <input type="submit" value="Submit" />
+            </div>
+          </form>
+        </Col>
+        <Col md={4}></Col>
+      </Row>
+    </Container>
   );
 }
+/*
+
+        */
