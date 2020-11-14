@@ -186,9 +186,8 @@ export default function NewPack({ activeUser }) {
       newPack.mentor === "default"
     ) {
       setErrMsg("Some of Components has not been chosen");
-    } else if (facade.loggedIn) {
-      console.log("facade.loggedIn????");
-      console.log(facade.loggedIn());
+    } else if (facade.loggedIn === false) {
+      
       setErrMsg(
         <div>
           <h4>You need to log in or register to continue</h4>
@@ -205,14 +204,14 @@ export default function NewPack({ activeUser }) {
         </div>
       );
     } else {
-      console.log("ommitet esif");
+     
       setErrMsg(readyToAddPack);
       setRenederRP(true);
     }
   }
 
   useEffect(() => {
-    console.log(newPack);
+    
     if (renderResultPack === true) {
       let mounted = true;
       facade
